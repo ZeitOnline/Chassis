@@ -10,3 +10,7 @@ define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
 // You'll probably want debug logging during development
 define( 'WP_DEBUG_LOG', true );
+
+// Multisite
+define( 'WP_ALLOW_MULTISITE', true );
+define('MULTISITE', true);

@@ -29,7 +29,18 @@ We use the branch `blog.zeit.de` as the default branch to keep our changes (like
 
 ```
 $ git checkout blog.zeit.de
-``
+```
+
+## Configuration
+
+For using the preinstalled configuration, make copies of the following files:
+
+- `config.local-sample.yaml`, save as `config.local.yaml`
+- `local-config-sample.php`, save as `local-config.php`
+
+You may add your own configuration items, use [this documentation](http://docs.chassis.io/en/latest/config/) for help.
+
+## Start development
 
 Now you are ready to start the development with:
 
