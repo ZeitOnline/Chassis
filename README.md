@@ -49,3 +49,15 @@ $ vagrant up
 ```
 
 For further information or configuration follow the chassis [quickstart instructions](http://docs.chassis.io/en/latest/quickstart/).
+
+Find your blog site here: [http://vagrant.local](http://vagrant.local).
+
+## Blog Setup
+
+First you'll need to setup some blogs for development puposes. You'll find Wordpress XML for different blogs in
+
+```
+<you-project>/examples/
+```
+
+Use the wordpress importer plugin to import these in different subblogs.

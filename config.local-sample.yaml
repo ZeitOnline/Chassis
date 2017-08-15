@@ -19,4 +19,10 @@ paths:
     wp: wp
 
     # Content directory. Relative to the base directory.
-    content: wordpres-stuff
+    content: wordpress-stuff
+
+# Plugins
+#
+# Install and activate a list of plugins from wp.org
+plugins:
+    - wordpress-importer
