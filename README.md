@@ -1,34 +1,40 @@
-# Chassis
+# ZEIT ONLINE Blog Development (based on [Chassis](http://docs.chassis.io/))
 
-Chassis is a virtual server for your WordPress site, built using [Vagrant][].
+We use a fork of the chassis development tools for local development of wordpress.
 
-Chassis is basically a way to run WordPress (and related parts, such as PHP and
-nginx) without needing to worry about setting up anything. You can imagine it as
-MAMP/WAMP on steroids.
+## Pre-Install
+You should already have installed [Virtual Box](https://www.virtualbox.org/wiki/Downloads) and [Vagrant](http://www.vagrantup.com/downloads.html), that usually are used in other development environments for ZEIT ONLINE. If you use a linux based system, you will also need to install Avahi, with
 
-[Vagrant]: http://vagrantup.com/
+```
+$ sudo apt-get install avahi-dnsconfd
+```
 
-## Installing & Documentation
+## Installation
+Clone this repository
 
-Follow our [quickstart instructions](http://docs.chassis.io/en/latest/quickstart/)
-to get up and running right away!
+```
+$ git clone --recursive git@github.com:ZeitOnline/Chassis.git <your-project>
+```
 
-We've got tonnes more documentation available at http://chassis.io/ to peruse
-through at your leisure.
+If you forget `--recursive` to initialize the submodules, just run
 
-## FAQ
+```
+$ cd <your-project>
+$ git submodule update --init
+```
 
-### How is Chassis different from [VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)?
+now.
 
-Each Chassis install is self-contained. We do this to try and mirror the server
-that you will be deploying to.
+We use the branch `blog.zeit.de` as the default branch to keep our changes (like this readme) apart from the development of Chassis. You'll find all configuration files there, so if you are not directly checked out into this branch, check it out now:
 
-Note that while you can't have multiple independent installs on the same Chassis
-box, we support both subdomain and subdirectory multisite out of the box.
+```
+$ git checkout blog.zeit.de
+``
 
-### Can you add X?
+Now you are ready to start the development with:
 
-While we certainly can add any feature, consider first if it's better off as a
-Chassis extension. We try and keep Chassis as lightweight as possible, and
-extensions are a good way of adding features without weighing down
-Chassis itself.
+```
+$ vagrant up
+```
+
+For further information or configuration follow the chassis [quickstart instructions](http://docs.chassis.io/en/latest/quickstart/).
