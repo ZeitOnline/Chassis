@@ -78,3 +78,24 @@ You'll find Wordpress XML for different blogs in
 ```
 
 Use the wordpress importer plugin to import these in different subblogs.
+
+## Updating fork
+
+### 0. Add remote from original repository in your forked repository: 
+
+    cd <your-project>
+    git remote add upstream git@github.com:Chassis/Chassis.git
+    git fetch upstream
+
+### 1. Checkout the master branch:
+
+    git checkout master
+
+### 2. Updating your fork from original repo to keep up with their changes:
+
+    git pull upstream master
+
+### 3. Rebase master into blog.zeit.de branch
+
+    git checkout blog.zeit.de
+    git rebase master
