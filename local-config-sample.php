@@ -14,3 +14,6 @@ define( 'WP_DEBUG_LOG', true );
 // Multisite
 define( 'WP_ALLOW_MULTISITE', true );
 define('MULTISITE', true);
+
+define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wordpress-stuff' );
+define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/wordpress-stuff' );
