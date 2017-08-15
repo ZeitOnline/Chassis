@@ -53,11 +53,28 @@ For further information or configuration follow the chassis [quickstart instruct
 Find your blog site here: [http://vagrant.local](http://vagrant.local).
 
 ## Blog Setup
-
-First you'll need to setup some blogs for development puposes. You'll find Wordpress XML for different blogs in
+For configuration of your local blog site, you need to login at [http://vagrant.local/wp-admin/](http://vagrant.local/wp-admin/). The standard credentials are:
 
 ```
-<you-project>/examples/
+Username: admin
+Password: password
+```
+
+First network active the following plugins by visiting the [netword plugin page](http://vagrant.local/wp-admin/network/plugins.php):
+
+- wordpress importer
+- ZEIT ONLINE Auth for SSO
+- ZEIT ONLINE Big Share Buttons
+- ZON Blog Authors Widget
+- ZON Blog Options
+- ZON Rahmen API - Framebuilder
+
+You'll need to setup some blogs for development puposes. As there are three different blog types (with three themes/subthemes), you'll need at least three blogs. [Add new blogs here](http://vagrant.local/wp-admin/network/site-new.php).
+
+You'll find Wordpress XML for different blogs in
+
+```
+<your-project>/wordpress-stuff/examples/
 ```
 
 Use the wordpress importer plugin to import these in different subblogs.
