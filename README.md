@@ -27,7 +27,7 @@ now.
 
 > Note: Replace `<your-project>` with the directory name you checked out chassis into.
 
-We use the branch `blog.zeit.de` as the default branch to keep our changes (like this readme) apart from the development of Chassis. You'll find all configuration files there, so if you are not directly checked out into this branch, check it out now:
+We use the branch `blog.zeit.de` as the default branch to keep our changes (like this readme) apart from the development of Chassis. You'll find all configuration files there, so *if you are not directly checked out into this branch*, check it out now:
 
 ```
 git checkout blog.zeit.de
@@ -41,6 +41,13 @@ For using the preinstalled configuration, make copies of the following files:
 - `local-config-sample.php`, save as `local-config.php`
 
 You may add your own configuration items, use [this documentation](http://docs.chassis.io/en/latest/config/) for help.
+
+## Clone wordpress-stuff
+For developing themes and plugins for blog.zeit.de clone the wordpress-stuff repository into the root of your chassis project
+
+```
+git clone git@github.com:ZeitOnline/wordpress-stuff.git
+```
 
 ## Start development
 
