@@ -16,3 +16,4 @@
 [submodule "wordpress-stuff"]
 	path = wordpress-stuff
 	url = git@github.com:ZeitOnline/wordpress-stuff.git
+	branch = master
