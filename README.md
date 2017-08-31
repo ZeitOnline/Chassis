@@ -80,12 +80,7 @@ First network active the following plugins by visiting the [netword plugin page]
 
 You'll need to setup some blogs for development puposes. As there are three different blog types (with three themes/subthemes), you'll need at least three blogs. [Add new blogs here](http://vagrant.local/wp-admin/network/site-new.php).
 
-You'll find Wordpress XML for different blogs in
-
-```
-<your-project>/wordpress-stuff/examples/
-```
-
+You'll can export Wordpress XML from blog.zeit.de for use as examples blogs.  
 Use the wordpress importer plugin to import these in different subblogs.
 
 ## Updating fork
