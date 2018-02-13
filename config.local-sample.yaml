@@ -5,7 +5,7 @@ multisite: Yes
 
 # PHP version
 # Values: 5.6, 7.0, 7.1 (or 5.6.30)
-php: 5.6.30
+php: 7.1
 
 # Paths
 #
@@ -19,10 +19,20 @@ paths:
     wp: wp
 
     # Content directory. Relative to the base directory.
-    content: wordpress-stuff
+    # place symbolic links to your plugins and themes in these directories
+    content: content
 
 # Plugins
 #
 # Install and activate a list of plugins from wp.org
 plugins:
+    - akismet
+    - code-snippets-extended
+    - comment-moderation-e-mail-to-post-author
+    - jetpack
+    - language-fallback
+    - more-privacy-options
+    - multisite-enhancements
+    - proper-network-activation
+    - unconfirmed
     - wordpress-importer
