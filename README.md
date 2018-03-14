@@ -33,55 +33,60 @@ We use the branch `blog.zeit.de` as the default branch to keep our changes (like
 git checkout blog.zeit.de
 ```
 
-## Configuration
 
-For using the preinstalled configuration, make copies of the following files:
+## Setup local directories
+It is adviced to setup a directory beside your dev env directory to share it with the virtual machine. The configuration files are prepared respectively:
 
-- `config.local-sample.yaml`, save as `config.local.yaml`
-- `local-config-sample.php`, save as `local-config.php`
+    $> mkdir wordpress
+    $> cd wordpress
+    $> git clone --recursive git@github.com:ZeitOnline/Chassis.git zeit-chassis
+    $> mkdir wp-content
 
-You may add your own configuration items, use [this documentation](http://docs.chassis.io/en/latest/config/) for help.
+If you chose to setup different directories, change the chassis config (`synced_folders`).
 
-## Clone wordpress-stuff
-For developing themes and plugins for blog.zeit.de clone the wordpress-stuff repository into the root of your chassis project
+## Setup configuration files
+The vagrant machine is configured with `config.yaml`, which is extended by your personal `config.local.yaml`. Copy the supplied `config.local-sample.yaml` and edit it if necessary.
 
-```
-git clone git@github.com:ZeitOnline/wordpress-stuff.git
-```
+    $> cp config.local-sample.yaml config.local.yaml
+    $> vim config.local.yaml
 
-## Start development
+The configuration of the wordpress follows the same way, extending `wp-config.php` with `local-config.php`. The copy and paste example for this file is `local-config-sample.php`.
 
-Now you are ready to start the development with:
+    $> cp local-config-sample.php local-config.php
+    $> vim local-config.php # if needed
 
-```
-vagrant up
-```
+## Start dev environment
+    $> vagrant up
 
-For further information or configuration follow the chassis [quickstart instructions](http://docs.chassis.io/en/latest/quickstart/).
+At first launch the vagrant environment is provisioned and the webserver is startet. The configured blog can now be reached at http://vagrant.local
 
-Find your blog site here: [http://vagrant.local](http://vagrant.local).
+## Install plugins and themes
 
-## Blog Setup
-For configuration of your local blog site, you need to login at [http://vagrant.local/wp-admin/](http://vagrant.local/wp-admin/). The standard credentials are:
+The ZEIT ONLINE plugins can now be cloned from their github repository into `wordpress/wp-content/plugins` and for themes `wordpress/wp-content/themes`, for instance:
 
-```
-Username: admin
-Password: password
-```
+    $> cd wp-content/plugins
+    $> git clone git@github.com:ZeitOnline/zon-blog-extensions.git
 
-First network active the following plugins by visiting the [netword plugin page](http://vagrant.local/wp-admin/network/plugins.php):
+A list of the plugins and themes is found here: https://github.com/ZeitOnline/wordpress-stuff/blob/master/README.md
 
-- wordpress importer
-- ZEIT ONLINE Auth for SSO
-- ZEIT ONLINE Big Share Buttons
-- ZON Blog Authors Widget
-- ZON Blog Options
-- ZON Rahmen API - Framebuilder
+**Caveat:** actually the external plugins listed in `config.local.yaml` should be installed on the first `vagrant up` automatically, but in most cases this didn't work. You'll need to install them manually, for example:
 
-You'll need to setup some blogs for development puposes. As there are three different blog types (with three themes/subthemes), you'll need at least three blogs. [Add new blogs here](http://vagrant.local/wp-admin/network/site-new.php).
+    $> cd zeit-chassis
+    $> vagrant ssh
+    $> wp plugin install akismet code-snippets-extended comment-moderation-e-mail-to-post-author jetpack language-fallback more-privacy-options multisite-enhancements proper-network-activation unconfirmed wordpress-importer wp-example-content
 
-You'll can export Wordpress XML from blog.zeit.de for use as examples blogs.  
-Use the wordpress importer plugin to import these in different subblogs.
+**Need to know:** The use of the wordpress' command line interface `wp` is mandatory, as we want to exklude the most superadvisor tasks from the web backend, because there are too many users with the role superadvisor. You'll find [the wp-cli documentation here](https://developer.wordpress.org/cli/commands/). Also you should use `wp help [command]` if necessary.
+
+## Logging in and configute blogs
+You can log in here: http://vagrant.local/wp-admin
+
+    Nutzername: admin
+    Passwort: password
+
+Blogs need to be instatiated manually, to fill them with example content, use the plugin `wp-example-content`.
+
+**Avoid import of live data!**
+If content from productive blogs should be importet locally, please use the `wordpress-importer` plugin and the wordpress xml format. Do not import user data (assign imported article to user admin) to prevent from dev leakage and to follow privacy protection rules. Delete xml files after use and never save export files on live servers. The same rules apply for database backups.
 
 ## Updating fork
 
@@ -103,3 +108,6 @@ Use the wordpress importer plugin to import these in different subblogs.
 
     git checkout blog.zeit.de
     git rebase master
+
+
+
