@@ -12,11 +12,11 @@ define chassis::wp (
 	$admin_user     = 'admin',
 	$admin_email    = 'admin@example.com',
 	$admin_password = 'password',
+	$sitename       = 'Chassis Site',
 	$network = false,
-	$plugins = [],
-	$themes = [],
 
 	$extensions = [],
+	$global_extensions = [],
 ) {
 	$subdomains = ( $network == 'subdomains' )
 	if ( $network ) {
@@ -48,6 +48,7 @@ define chassis::wp (
 			admin_user        => $admin_user,
 			admin_email       => $admin_email,
 			admin_password    => $admin_password,
+			sitename          => $sitename,
 		}
 	}
 
@@ -70,15 +71,5 @@ define chassis::wp (
 
 	file { '/home/vagrant/.wp-cli/config.yml':
 		content => template('chassis/wp-cli.yml.erb')
-	}
-
-	wp::plugin { $plugins:
-		ensure   => 'enabled',
-		location => $location,
-	}
-
-	wp::theme { $themes:
-		ensure   => 'enabled',
-		location => $location,
 	}
 }

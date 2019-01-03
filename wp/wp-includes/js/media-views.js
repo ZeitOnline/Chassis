@@ -36,12 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -58,6 +78,7 @@
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
+/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 26);
@@ -953,9 +974,6 @@ Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Librar
 			}) );
 		}
 
-		this._filterContext();
-		this.get('library').on( 'add', this._filterContext, this );
-
 		this.resetDisplays();
 	},
 
@@ -1155,20 +1173,8 @@ Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Librar
 		if ( view && view.get( mode ) ) {
 			setUserSetting( 'libraryContent', mode );
 		}
-	},
-
-	/**
-	 * Filter out contextually created attachments (e.g. headers, logos, etc.)
-	 *
-	 * @since 4.9.0
-	 */
-	_filterContext: function() {
-		var library = this.get('library');
-
-		library.set( library.filter( function( item ) {
-			return item.get('context') === '';
-		} ) );
 	}
+
 });
 
 // Make selectionSync available on any Media Library state.
@@ -7037,6 +7043,7 @@ Uploaded = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attac
 	createFilters: function() {
 		var type = this.model.get('type'),
 			types = wp.media.view.settings.mimeTypes,
+			uid = window.userSettings ? parseInt( window.userSettings.uid, 10 ) : 0,
 			text;
 
 		if ( types && type ) {
@@ -7049,7 +7056,8 @@ Uploaded = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attac
 				props: {
 					uploadedTo: null,
 					orderby: 'date',
-					order:   'DESC'
+					order:   'DESC',
+					author:	 null
 				},
 				priority: 10
 			},
@@ -7059,7 +7067,8 @@ Uploaded = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attac
 				props: {
 					uploadedTo: wp.media.view.settings.post.id,
 					orderby: 'menuOrder',
-					order:   'ASC'
+					order:   'ASC',
+					author:	 null
 				},
 				priority: 20
 			},
@@ -7069,11 +7078,24 @@ Uploaded = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attac
 				props: {
 					uploadedTo: 0,
 					orderby: 'menuOrder',
-					order:   'ASC'
+					order:   'ASC',
+					author:	 null
 				},
 				priority: 50
 			}
 		};
+
+		if ( uid ) {
+			this.filters.mine = {
+				text:  l10n.mine,
+				props: {
+					orderby: 'date',
+					order:   'DESC',
+					author:  uid
+				},
+				priority: 50
+			};
+		}
 	}
 });
 
@@ -7100,7 +7122,8 @@ var l10n = wp.media.view.l10n,
  */
 All = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.AttachmentFilters.All.prototype */{
 	createFilters: function() {
-		var filters = {};
+		var filters = {},
+			uid = window.userSettings ? parseInt( window.userSettings.uid, 10 ) : 0;
 
 		_.each( wp.media.view.settings.mimeTypes || {}, function( text, key ) {
 			filters[ key ] = {
@@ -7110,7 +7133,8 @@ All = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attachment
 					type:    key,
 					uploadedTo: null,
 					orderby: 'date',
-					order:   'DESC'
+					order:   'DESC',
+					author:  null
 				}
 			};
 		});
@@ -7122,7 +7146,8 @@ All = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attachment
 				type:    null,
 				uploadedTo: null,
 				orderby: 'date',
-				order:   'DESC'
+				order:   'DESC',
+				author:  null
 			},
 			priority: 10
 		};
@@ -7135,7 +7160,8 @@ All = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attachment
 					type:    null,
 					uploadedTo: wp.media.view.settings.post.id,
 					orderby: 'menuOrder',
-					order:   'ASC'
+					order:   'ASC',
+					author:  null
 				},
 				priority: 20
 			};
@@ -7148,10 +7174,26 @@ All = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attachment
 				uploadedTo: 0,
 				type:       null,
 				orderby:    'menuOrder',
-				order:      'ASC'
+				order:      'ASC',
+				author:     null
 			},
 			priority: 50
 		};
+
+		if ( uid ) {
+			filters.mine = {
+				text:  l10n.mine,
+				props: {
+					status:		null,
+					type:		null,
+					uploadedTo:	null,
+					orderby:	'date',
+					order:		'DESC',
+					author:		uid
+				},
+				priority: 50
+			};
+		}
 
 		if ( wp.media.view.settings.mediaTrash &&
 			this.controller.isModeActive( 'grid' ) ) {
@@ -7163,7 +7205,8 @@ All = wp.media.view.AttachmentFilters.extend(/** @lends wp.media.view.Attachment
 					status:     'trash',
 					type:       null,
 					orderby:    'date',
-					order:      'DESC'
+					order:      'DESC',
+					author:     null
 				},
 				priority: 50
 			};
